@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livros</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Livros Disponíveis</h1>
+        <input type="text" id="searchInput" placeholder="Pesquisar Livros">
+    </header>
+    <div class="grid-container" id="bookContainer">
+        <div class="book">
+            <a href="book_details.html">
+                <img src="book1.jpg" alt="Livro 1">
+                <div class="book-info">
+                    <h2>Jogos Vorazes</h2>
+                    <p>Preço: $19.99</p>
+                </div>
+            </a>
+        </div>
+        <div class="book">
+            <a href="book_details.html">
+                <img src="book2.jpg" alt="Livro 2">
+                <div class="book-info">
+                    <h2>Harry Potter</h2>
+                    <p>Preço: $24.99</p>
+                </div>
+            </a>
+        </div>
+        <!-- Adicionar mais livros conforme necessário -->
+    </div>
+    <footer>
+        <p>&copy; 2024 Nome do Seu Site. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const books = document.querySelectorAll('.book');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            books.forEach(book => {
+                const title = book.querySelector('h2').innerText.toLowerCase();
+                const isVisible = title.includes(searchTerm);
+
+                book.style.display = isVisible ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
