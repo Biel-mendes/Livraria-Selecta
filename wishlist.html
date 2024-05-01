@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Desejos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Lista de Desejos</h1>
+    <div id="wishlist">
+        <!-- Lista de livros desejados será carregada aqui -->
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const wishlist = document.getElementById('wishlist');
+    
+        // Função para adicionar item à lista de desejos
+        function addToWishlist(bookId) {
+            const selectedBook = books.find(book => book.id === bookId);
+            if (selectedBook) {
+                // Adicionar item à lista de desejos (implementação simulada)
+                console.log(`Livro "${selectedBook.title}" adicionado à lista de desejos.`);
+                // Atualizar a exibição da lista de desejos
+                displayWishlist();
+            }
+        }
+    
+        // Função para remover item da lista de desejos
+        function removeFromWishlist(bookId) {
+            const index = wishlistItems.findIndex(item => item.id === bookId);
+            if (index !== -1) {
+                wishlistItems.splice(index, 1);
+                // Atualizar a exibição da lista de desejos
+                displayWishlist();
+            }
+        }
+    
+        // Função para exibir itens da lista de desejos
+        function displayWishlist() {
+            wishlist.innerHTML = ""; // Limpar a lista antes de recriá-la
+            wishlistItems.forEach(item => {
+                const wishlistItem = document.createElement("div");
+                wishlistItem.classList.add("wishlist-item");
+                wishlistItem.innerHTML = `
+                    <h3>${item.title}</h3>
+                    <p>By ${item.author}</p>
+                    <p>Price: $${item.price}</p>
+                    <button onclick="removeFromWishlist(${item.id})">Remove</button>
+                `;
+                wishlist.appendChild(wishlistItem);
+            });
+        }
+    
+        // Exibir itens da lista de desejos quando a página carrega
+        displayWishlist();
+    });
+    </script>
+    
+    <div id="wishlist">
+        <!-- Lista de livros desejados será carregada aqui -->
+    </div>
+
+</body>
+</html>
+
+<!-- JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const wishlist = document.getElementById('wishlist');
+
+    // Dummy data for wishlist
+    const wishlistItems = [
+        { id: 1, title: "Jogos Vorazes", author: "Author 1", price: 10.99 },
+        { id: 2, title: "Harry Potter", author: "Author 2", price: 12.99 },
+        { id: 3, title: "Carros", author: "Author 3", price: 9.99 }
+    ];
+
+    // Function to display wishlist items
+    function displayWishlist() {
+        wishlistItems.forEach(item => {
+            const wishlistItem = document.createElement("div");
+            wishlistItem.classList.add("wishlist-item");
+            wishlistItem.innerHTML = `
+                <h3>${item.title}</h3>
+                <p>By ${item.author}</p>
+                <p>Price: $${item.price}</p>
+            `;
+            wishlist.appendChild(wishlistItem);
+        });
+    }
+
+    // Display wishlist items when page loads
+    displayWishlist();
+});
+</script>

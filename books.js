@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     const bookContainer = document.getElementById('bookContainer');
+    const searchTitleInput = document.getElementById('search-title');
+    const minPriceInput = document.getElementById('min-price');
+    const maxPriceInput = document.getElementById('max-price');
+    const searchPriceBtn = document.getElementById('search-price-btn');
 
     // Dummy data for books
     const books = [
@@ -9,8 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // Function to display books in catalog
-    function displayBooks() {
-        books.forEach(book => {
+    function displayBooks(booksToDisplay) {
+        bookContainer.innerHTML = '';
+
+        booksToDisplay.forEach(book => {
             const bookItem = document.createElement("div");
             bookItem.classList.add("book-item");
             bookItem.innerHTML = `
@@ -24,24 +30,37 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Function to add book to cart
-    function addToCart(bookId) {
-        const selectedBook = books.find(book => book.id === bookId);
-        if (selectedBook) {
-            // Simulate adding book to cart
-            console.log(`Add to cart: ${selectedBook.title}`);
+    // Function to search books by title
+    function searchByTitle() {
+        const searchInput = searchTitleInput.value.trim().toLowerCase();
+
+        if (searchInput !== '') {
+            const filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchInput));
+            displayBooks(filteredBooks);
+        } else {
+            displayBooks(books);
         }
     }
 
-    // Function to view book details
-    function viewDetails(bookId) {
-        const selectedBook = books.find(book => book.id === bookId);
-        if (selectedBook) {
-            // Redirect to book details page
-            window.location.href = `book_details.html?id=${selectedBook.id}`;
+    // Function to search books by price range
+    function searchByPriceRange() {
+        const minPrice = parseFloat(minPriceInput.value);
+        const maxPrice = parseFloat(maxPriceInput.value);
+
+        if (!isNaN(minPrice) && !isNaN(maxPrice) && minPrice <= maxPrice) {
+            const filteredBooks = books.filter(book => book.price >= minPrice && book.price <= maxPrice);
+            displayBooks(filteredBooks);
+        } else {
+            displayBooks([]);
         }
     }
 
-    // Display books when page loads
-    displayBooks();
+    // Display all books when page loads
+    displayBooks(books);
+
+    // Add input event listener for title search
+    searchTitleInput.addEventListener('input', searchByTitle);
+
+    // Add click event listener for price range search
+    searchPriceBtn.addEventListener('click', searchByPriceRange);
 });
