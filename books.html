@@ -1,4 +1,3 @@
-<!-- books.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,26 +10,11 @@
     <header>
         <h1>Livros Disponíveis</h1>
     </header>
-
-    <!-- Barra de busca por título -->
-    <div id="title-search">
-        <label for="search-title">Pesquisar por Título:</label>
-        <input type="text" id="search-title">
-        <button onclick="searchByTitle()">Pesquisar</button>
-    </div>
-
-    <!-- Barra de busca por faixa de preço -->
-    <div id="price-search">
-        <label for="min-price">Preço Mínimo:</label>
-        <input type="number" id="min-price" min="0" step="0.01">
-        <label for="max-price">Preço Máximo:</label>
-        <input type="number" id="max-price" min="0" step="0.01">
-        <button onclick="searchByPriceRange()">Pesquisar</button>
-    </div>
-
-    <div class="grid-container" id="bookContainer">
-        <!-- Lista de livros será carregada dinamicamente aqui -->
-    </div>
+    <section id="books-details">
+        <div class="grid-container" id="bookContainer">
+            <!-- Lista de livros será carregada dinamicamente aqui -->
+        </div>
+    </section>
     <footer>
         <p>&copy; 2024 Livraria Selecta. Todos os direitos reservados.</p>
     </footer>
@@ -38,3 +22,4 @@
     <script src="books.js"></script>
 </body>
 </html>
+
