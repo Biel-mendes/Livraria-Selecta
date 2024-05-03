@@ -51,10 +51,15 @@ function viewDetails(bookId) {
 }
 
 // Function to toggle cart modal
+// Function to toggle cart modal
 function toggleCartModal() {
     const modal = document.getElementById("cart-modal");
     modal.style.display = modal.style.display === "block" ? "none" : "block";
+    if (modal.style.display === "block") {
+        renderCart();
+    }
 }
+
 
 // Function to handle checkout
 function checkout() {
@@ -136,3 +141,48 @@ document.addEventListener('DOMContentLoaded', function() {
     // Display all books when page loads
     displayBooks(books);
 });
+
+// Function to add book to cart
+function addToCart() {
+    const selectedBook = {
+        id: 123, // Insira o ID real do livro aqui
+        title: "Título do Livro",
+        author: "Autor do Livro",
+        price: 19.99 // Insira o preço real do livro aqui
+    };
+
+    // Adicione o livro ao carrinho
+    const existingCartItem = cart.find(item => item.id === selectedBook.id);
+    if (existingCartItem) {
+        existingCartItem.quantity++;
+    } else {
+        cart.push({ ...selectedBook, quantity: 1 });
+    }
+
+    // Atualize a visualização do carrinho
+    renderCart();
+
+    // Salva o carrinho no localStorage
+    saveCartToLocalStorage();
+}
+
+
+// Função para salvar o carrinho no localStorage
+function saveCartToLocalStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// Função para carregar o carrinho do localStorage
+function loadCartFromLocalStorage() {
+    const cartFromStorage = localStorage.getItem('cart');
+    if (cartFromStorage) {
+        cart = JSON.parse(cartFromStorage);
+        renderCart(); // Atualiza a visualização do carrinho quando a página é carregada
+    }
+}
+
+// Display books when page loads and load cart from localStorage
+window.onload = function() {
+    displayBooks();
+    loadCartFromLocalStorage();
+};
