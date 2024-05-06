@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livraria</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#livros-list,
+#resultado-busca {
+    list-style-type: none;
+    padding: 0;
+}
+
+#livros-list li {
+    margin-bottom: 10px;
+}
+
+#detalhes-livro {
+    margin-bottom: 10px;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Usuário</h1>
+        <form id="cadastro-form" method="post" action="{{ url_for('cadastrar_usuario') }}">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <hr>
+        <h1>Explorar Livros</h1>
+        <ul id="livros-list">
+            {% for livro in livros %}
+                <li>{{ livro.Titulo }} - {{ livro.Autor }}</li>
+            {% endfor %}
+        </ul>
+        <hr>
+        <h1>Buscar Livros por Preço</h1>
+        <form id="busca-form" method="post" action="{{ url_for('buscar_livros') }}">
+            <label for="preco_max">Preço Máximo:</label>
+            <input type="number" id="preco_max" name="preco_max" min="0" step="0.01" required>
+            <button type="submit">Buscar</button>
+        </form>
+        <ul id="resultado-busca">
+            {% if resultados %}
+                {% for livro in resultados %}
+                    <li>{{ livro.Titulo }} - {{ livro.Autor }} - R$ {{ livro.Preco }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+        <hr>
+        <h1>Detalhes do Livro</h1>
+        <div id="detalhes-livro">
+            {% if detalhes %}
+                <h2>{{ detalhes.Titulo }}</h2>
+                <p><strong>Autor:</strong> {{ detalhes.Autor }}</p>
+                <p><strong>Descrição:</strong> {{ detalhes.Descricao }}</p>
+                <p><strong>Preço:</strong> R$ {{ detalhes.Preco }}</p>
+                <p><strong>Estoque Disponível:</strong> {{ detalhes.Estoque }}</p>
+            {% endif %}
+        </div>
+        <hr>
+        <h1>Adicionar ao Carrinho</h1>
+        <form id="carrinho-form" method="post" action="{{ url_for('adicionar_carrinho') }}">
+            <label for="id_livro">ID do Livro:</label>
+            <input type="number" id="id_livro" name="id_livro" min="1" required>
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" id="quantidade" name="quantidade" min="1" required>
+            <button type="submit">Adicionar ao Carrinho</button>
+        </form>
+        <div id="mensagem">
+            {% if mensagem %}
+                {{ mensagem }}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
