@@ -1,188 +1,121 @@
-// Dummy data for books
-const books = [
-    { id: 1, title: "Jogos Vorazes", author: "Author 1", price: 10.99 },
-    { id: 2, title: "Harry Potter", author: "Author 2", price: 12.99 },
-    { id: 3, title: "Carros", author: "Author 3", price: 9.99 }
-];
-
-// Dummy data for user authentication
-let isAuthenticated = false;
-
-// Function to display books in catalog
-function displayBooks() {
-    const catalogSection = document.getElementById("book-catalog");
-
-    books.forEach(book => {
-        const bookItem = document.createElement("div");
-        bookItem.classList.add("book-item");
-        bookItem.innerHTML = `
-            <h3>${book.title}</h3>
-            <p>By ${book.author}</p>
-            <p>Price: $${book.price}</p>
-            <button onclick="addToCart(${book.id})">Add to Cart</button>
-            <button onclick="viewDetails(${book.id})">View Details</button>
-        `;
-        catalogSection.appendChild(bookItem);
-    });
-}
-
-// Function to add book to cart
-function addToCart(bookId) {
-    const selectedBook = books.find(book => book.id === bookId);
-    if (selectedBook) {
-        // Simulate adding book to cart
-        const cartItems = document.getElementById("cart-items");
-        const cartItem = document.createElement("div");
-        cartItem.classList.add("cart-item");
-        cartItem.innerHTML = `
-            <p>${selectedBook.title} - $${selectedBook.price}</p>
-        `;
-        cartItems.appendChild(cartItem);
-    }
-}
-
-// Function to view book details
-function viewDetails(bookId) {
-    const selectedBook = books.find(book => book.id === bookId);
-    if (selectedBook) {
-        // Redirect to book details page (not implemented in this example)
-        console.log(`View details for ${selectedBook.title}`);
-    }
-}
-
-// Function to toggle cart modal
-// Function to toggle cart modal
-function toggleCartModal() {
-    const modal = document.getElementById("cart-modal");
-    modal.style.display = modal.style.display === "block" ? "none" : "block";
-    if (modal.style.display === "block") {
-        renderCart();
-    }
-}
-
-
-// Function to handle checkout
-function checkout() {
-    if (isAuthenticated) {
-        // Redirect to checkout page (not implemented in this example)
-        console.log("Redirect to checkout page");
-    } else {
-        alert("Please login to proceed with checkout.");
-    }
-}
-
-// Event listeners
-document.getElementById("cart").addEventListener("click", toggleCartModal);
-document.querySelector(".close").addEventListener("click", toggleCartModal);
-document.getElementById("checkout-btn").addEventListener("click", checkout);
-
-// Display books when page loads
-window.onload = function() {
-    displayBooks();
-};
-
-// books.js
 document.addEventListener('DOMContentLoaded', function() {
-    const bookContainer = document.getElementById('bookContainer');
+    // Declaração de elementos do DOM
+    const bookContainer = document.getElementById('book-catalog');
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+    const cartModal = document.getElementById('cart-modal-home');
+    const cartItems = document.getElementById('cart-items-home');
+    const checkoutBtn = document.getElementById('checkout-btn-home');
+    const loginLink = document.getElementById('login');
 
-    // Dummy data for books
+    // Dados fictícios dos livros
     const books = [
-        { id: 1, title: "Jogos Vorazes", author: "Author 1", price: 10.99 },
-        { id: 2, title: "Harry Potter", author: "Author 2", price: 12.99 },
-        { id: 3, title: "Carros", author: "Author 3", price: 9.99 }
+        { id: 1, title: "Jogos Vorazes", author: "Author 1", price: 10.99, stock: 10 },
+        { id: 2, title: "Harry Potter", author: "Author 2", price: 12.99, stock: 8 },
+        { id: 3, title: "Carros", author: "Author 3", price: 9.99, stock: 15 },
+        { id: 4, title: "Dom Casmurro", author: "Machado de Assis", price: 25.50, stock: 5 },
+        { id: 5, title: "Memórias Póstumas de Brás Cubas", author: "Machado de Assis", price: 30.75, stock: 3 },
+        { id: 6, title: "Grande Sertão: Veredas", author: "João Guimarães Rosa", price: 35.20, stock: 7 }
     ];
 
-    // Function to display books in catalog
-    function displayBooks(booksToDisplay) {
-        // Clear existing books
-        bookContainer.innerHTML = '';
+    // Estado fictício da autenticação do usuário
+    let isAuthenticated = false;
 
-        booksToDisplay.forEach(book => {
-            const bookItem = document.createElement("div");
-            bookItem.classList.add("book-item");
-            bookItem.innerHTML = `
-                <h3>${book.title}</h3>
-                <p>By ${book.author}</p>
-                <p>Price: $${book.price}</p>
-                <button onclick="addToCart(${book.id})">Add to Cart</button>
-                <button onclick="viewDetails(${book.id})">View Details</button>
-            `;
+    // Array do carrinho para armazenar itens selecionados
+    let cart = [];
+
+    // Função para formatar preço
+    function formatPrice(price) {
+        return price.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    // Função para exibir livros
+    function displayBooks(filteredBooks = books) {
+        bookContainer.innerHTML = ""; // Limpa o conteúdo anterior
+        filteredBooks.forEach(book => {
+            const bookItem = createBookCard(book);
             bookContainer.appendChild(bookItem);
         });
     }
 
-    // Function to search books by title
-    function searchByTitle() {
-        const searchInput = document.getElementById('search-title').value.trim().toLowerCase();
+    // Função para criar um card de livro
+    function createBookCard(book) {
+        const card = document.createElement("div");
+        card.classList.add("book-card");
+        card.innerHTML = `
+            <h3>${book.title}</h3>
+            <p>Por ${book.author}</p>
+            <p>Preço: R$ ${formatPrice(book.price)}</p>
+            <button onclick="addToCart(${book.id})">Adicionar ao Carrinho</button>
+            <button onclick="viewDetails(${book.id})">Ver Detalhes</button>
+        `;
+        return card;
+    }
 
-        if (searchInput !== '') {
-            const filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchInput));
-            displayBooks(filteredBooks);
-        } else {
-            // Se nenhum título for inserido, exibir todos os livros
-            displayBooks(books);
+    // Função para adicionar livro ao carrinho
+    function addToCart(bookId) {
+        const selectedBook = books.find(book => book.id === bookId);
+        if (selectedBook) {
+            const existingCartItem = cart.find(item => item.id === selectedBook.id);
+            if (existingCartItem) {
+                existingCartItem.quantity++;
+            } else {
+                cart.push({ ...selectedBook, quantity: 1 });
+            }
+            updateCart();
+            saveCartToLocalStorage();
         }
     }
 
-    // Function to search books by price range
-    function searchByPriceRange() {
-        const minPrice = parseFloat(document.getElementById('min-price').value);
-        const maxPrice = parseFloat(document.getElementById('max-price').value);
+    // Função para atualizar o carrinho
+    function updateCart() {
+        cartItems.innerHTML = '';
+        cart.forEach(item => {
+            const cartItem = document.createElement("div");
+            cartItem.classList.add("cart-item");
+            cartItem.innerHTML = `<p>${item.title} - R$ ${formatPrice(item.price)} - Quantidade: ${item.quantity}</p>`;
+            cartItems.appendChild(cartItem);
+        });
+    }
 
-        if (!isNaN(minPrice) && !isNaN(maxPrice) && minPrice <= maxPrice) {
-            const filteredBooks = books.filter(book => book.price >= minPrice && book.price <= maxPrice);
-            displayBooks(filteredBooks);
+    // Função para lidar com o checkout
+    function handleCheckout() {
+        if (isAuthenticated) {
+            console.log("Redirecionar para a página de checkout");
+            // Implemente a lógica para redirecionar para a página de checkout aqui
         } else {
-            // Se os valores inseridos forem inválidos, exibir todos os livros
-            displayBooks(books);
+            alert("Faça login para prosseguir com o checkout.");
         }
     }
 
-    // Display all books when page loads
-    displayBooks(books);
-});
+    // Função para pesquisar livros
+    function searchBooks() {
+        const searchQuery = searchInput.value.trim().toLowerCase();
+        const filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchQuery));
+        displayBooks(filteredBooks);
+    }
 
-// Function to add book to cart
-function addToCart() {
-    const selectedBook = {
-        id: 123, // Insira o ID real do livro aqui
-        title: "Título do Livro",
-        author: "Autor do Livro",
-        price: 19.99 // Insira o preço real do livro aqui
+    // Eventos
+    searchBtn.addEventListener('click', searchBooks);
+    checkoutBtn.addEventListener('click', handleCheckout);
+
+    // Função para salvar carrinho no localStorage
+    function saveCartToLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Função para carregar carrinho do localStorage
+    function loadCartFromLocalStorage() {
+        const cartFromStorage = localStorage.getItem('cart');
+        if (cartFromStorage) {
+            cart = JSON.parse(cartFromStorage);
+            updateCart();
+        }
+    }
+
+    // Exibir livros quando a página carrega e carregar carrinho do localStorage
+    window.onload = function() {
+        displayBooks();
+        loadCartFromLocalStorage();
     };
-
-    // Adicione o livro ao carrinho
-    const existingCartItem = cart.find(item => item.id === selectedBook.id);
-    if (existingCartItem) {
-        existingCartItem.quantity++;
-    } else {
-        cart.push({ ...selectedBook, quantity: 1 });
-    }
-
-    // Atualize a visualização do carrinho
-    renderCart();
-
-    // Salva o carrinho no localStorage
-    saveCartToLocalStorage();
-}
-
-
-// Função para salvar o carrinho no localStorage
-function saveCartToLocalStorage() {
-    localStorage.setItem('cart', JSON.stringify(cart));
-}
-
-// Função para carregar o carrinho do localStorage
-function loadCartFromLocalStorage() {
-    const cartFromStorage = localStorage.getItem('cart');
-    if (cartFromStorage) {
-        cart = JSON.parse(cartFromStorage);
-        renderCart(); // Atualiza a visualização do carrinho quando a página é carregada
-    }
-}
-
-// Display books when page loads and load cart from localStorage
-window.onload = function() {
-    displayBooks();
-    loadCartFromLocalStorage();
-};
+});
