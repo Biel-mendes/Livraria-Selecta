@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Livros</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Adicionando o link para o ícone de pesquisa (caso necessário) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 <body>
     <header>
         <h1>Livros Disponíveis</h1>
         <nav>
             <ul>
-                <li>
-                    <li><a href="principal.html">Home</a></li>
-                    <a href="#" onclick="toggleCartModal()">Carrinho</a>
-                    <li class="nav-search">
-                        <input type="text" placeholder="Pesquisa">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </li>
+                <li><a href="principal.html">Home</a></li>
+                <li><a href="checkout.html">Carrinho</a></li>
+                <li class="nav-search">
+                    <input type="text" placeholder="Pesquisa">
+                    <button type="submit"><i class="fa fa-search"></i></button>
                 </li>
             </ul>
         </nav>
@@ -31,7 +32,8 @@
         <p>&copy; 2024 Livraria Selecta. Todos os direitos reservados.</p>
     </footer>
 
-    <script src="books.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
+
 

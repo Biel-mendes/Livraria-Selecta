@@ -14,26 +14,27 @@
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="books.html">Livros</a></li>
-                <a href="#" onclick="toggleCartModal()">Carrinho</a>
+                <li><a href="checkout.html">Carrinho</a></li>
                 <li><a href="login.html" id="login">Login</a></li>
                 <li class="nav-search">
-                    <input type="text" placeholder="Pesquisa">
-                    <button type="submit"><i class="fa fa-search"></i></button>
+                    <input type="text" id="search-input" placeholder="Pesquisa">
+                    <button type="submit" id="search-btn"><i class="fa fa-search"></i></button>
                 </li>
             </ul>
         </nav>
     </header>
-<!-- Cart Modal -->
-<div id="cart-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Seu carrinho</h2>
-        <div id="cart-items">
-            <!-- Cart items will be dynamically added here -->
+
+    <!-- Cart Modal -->
+    <div id="cart-modal-home" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Seu carrinho</h2>
+            <div id="cart-items-home">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+            <button id="checkout-btn-home">Confira</button>
         </div>
-        <button id="checkout-btn">Confira</button>
     </div>
-</div>
 
     <!-- Main Content -->
     <main>
@@ -41,18 +42,6 @@
         <section id="book-catalog">
             <!-- Book items will be dynamically added here -->
         </section>
-
-        <!-- Cart Modal -->
-        <div id="cart-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Seu carrinho</h2>
-                <div id="cart-items">
-                    <!-- Cart items will be dynamically added here -->
-                </div>
-                <button id="checkout-btn">Confira</button>
-            </div>
-        </div>
     </main>
 
     <!-- Footer -->
